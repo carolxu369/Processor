@@ -1,0 +1,9 @@
+module min_bne(OP, sig_bne);
+	// min stands for Minterms
+	// here we got just one term: sig_bne = OP[4]' AND OP[3]' AND ...
+	input [4:0] OP;
+	output sig_bne;
+	
+	and myOP_and (sig_bne, ~OP[4], ~OP[3], ~OP[2], OP[1], ~OP[0]);
+	
+endmodule

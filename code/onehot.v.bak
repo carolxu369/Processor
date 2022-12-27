@@ -1,0 +1,19 @@
+module onehot(OPcode, ALUOPcode, sigadd, sigaddi, sigsub, sigand, sigor, sigsll, sigsra, sigsw, siglw);
+	// an onehot decoder that reads all of the opcodes
+	// and generates onehot encoding of the operations
+	// except jump and branch type
+
+	input [4:0] OPcode, ALUOPcode;
+	output sigadd, sigaddi, sigsub, sigand, sigor, sigsll, sigsra, sigsw, siglw;
+
+	min_add mymin_add (OPcode, ALUOPcode, sigadd);
+	min_addi mymin_addi (OPcode, sigaddi);
+	min_sub mymin_sub (OPcode, ALUOPcode, sigsub);
+	min_and mymin_and (OPcode, ALUOPcode, sigand);
+	min_or mymin_or (OPcode, ALUOPcode, sigor);
+	min_sll mymin_sll (OPcode, ALUOPcode, sigsll);
+	min_sra mymin_sra (OPcode, ALUOPcode, sigsra);
+	min_sw mymin_sw (OPcode, sigsw);
+	min_lw mymin_lw (OPcode, siglw);
+
+endmodule

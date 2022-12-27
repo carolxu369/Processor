@@ -1,0 +1,13 @@
+module min_addi(OP, ALUOP, sig_add);
+	// min stands for Minterms
+	// here we got just one term: sig_add = OP[0]' AND OP[1]' AND ...
+	input [4:0] OP, ALUOP;
+	output sig_add;
+	
+	wire op_and, aluop_and;
+	and myOP_and (op_and, ~OP[0], ~OP[1], ~OP[2], ~OP[3], ~OP[4]);
+	and myALUOP_and (aluop_and, ~ALUOP[0], ~ALUOP[1], ~ALUOP[2], ~ALUOP[3], ~ALUOP[4]);
+	
+	and final (sig_add, op_and, aluop_and);
+	
+endmodule

@@ -1,0 +1,12 @@
+module test(Q, D, clk, en, clr)
+	//module dffe_PC(Q, D, clk, en, clr);
+	input [11:0] D;
+	input clk, en, clr;
+	output [11:0] reg Q;
+	
+	//module PC_Adder(Address_previous, Address_next);
+	dffe_PC myPC(Q, D, clk, en, clr);
+	PC_Adder myAdder(Q, D);
+	
+endmodule
+

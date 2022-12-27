@@ -1,0 +1,82 @@
+`timescale 1 ns / 100 ps
+module cla_twelve_tb(); // testbenches take no arguments
+ 	// set up inputs of NAND gate as registers so they can be manipulated at will
+ 	reg [11:0]in1, in2;
+	reg cin=0;
+ 	
+ 	// clocks are useful for testbenches because they allow you to check your
+ 	// circuit at regular intervals large enough for signals to propagate
+ 	reg clock;
+ 	
+	//set up the two integer to add!
+	
+	integer aval;
+	integer bval;
+	integer cval;
+	integer dval;
+	//integer exp_of=0;
+	//integer exp_co=0;
+ 	// set up output of NAND gate as wire
+	
+	wire [11:0] sum;
+	wire cout;
+ 	
+ 	// prepare any other variables you want - nothing is off-limits in a TB
+ 	integer num_errors = 0;
+	integer num_errors_signed = 0;
+ 	
+ 	// instantiate the WTM
+ 	//b12adder adding(in1, in2, cin, sum, cout, of);
+	cla_twelve adding(in1, in2, cin, sum);
+ 	
+ 	// begin simulation
+ 	initial begin
+       	$display($time, " simulation start");
+       	
+       	clock = 1'b0;
+
+	
+	for (aval = 0; aval < 4096; aval = aval + 100) begin
+		for(bval = 0; bval < 4096; bval = bval + 100) begin
+			@(negedge clock);
+       	in1 = aval;
+			in2 = bval;
+			//exp_of = 0;
+			//exp_co = 0;
+			# 2;  //wait for some time for the signals to propagate through
+			
+			if((aval + bval ) % 4096 != sum )  begin
+				$display("test failed for input %d + %d, given %d", in1, in2, sum);
+				num_errors = num_errors + 1;
+			end 
+			
+		end
+	end
+
+//	for (cval = -128; cval < 127; cval = cval + 1) begin
+//		for (dval = -128; dval < 127; dval = dval + 1) begin
+//			@(negedge clock);
+//       	in1 = cval;
+//       	in2 = dval;
+//			cin = 1;
+//			# 2;  //wait for some time for the signals to propagate through
+//			if(s + 256*cout != in1 + in2 + cin)  begin
+//				$display("test failed for input combination %d + %d, given %d", in1, in2, s+256*cout+cout);
+//				num_errors = num_errors + 1;
+//			end else begin 
+//				$display("test success for input combination %d + %d, given %d", in1, in2, s+256*cout+cout);
+//			end
+//		end
+//	end
+//	
+	
+   @(negedge clock);
+			$display("error count: %d", num_errors);
+	      $stop;
+	   
+ 	end
+ 	
+ 	always
+       	#20 clock = ~clock; // toggle clock every 10 timescale units
+ 	
+endmodule

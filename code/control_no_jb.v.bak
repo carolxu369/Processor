@@ -1,0 +1,13 @@
+module control_no_jb(ctrl_writeEnable, Rdest, ALUinB, wren, RWd, OPcode, ALUOPcode);
+	// controller unit that generates one-bit control signals
+	// except for jump and branch instructions
+	
+	input [4:0] OPcode, ALUOPcode;
+	output ctrl_writeEnable, Rdest, ALUinB, wren, RWd;
+	
+	// module onehot_no_jb(OPcode, ALUOPcode, sigadd, sigaddi, sigsub, sigand, sigor, sigsll, sigsra, sigsw, siglw);
+	wire sigadd, sigaddi, sigsub, sigand, sigor, sigsll, sigsra, sigsw, siglw;
+	onehot_no_jb myonehot_no_jb (OPcode, ALUOPcode, sigadd, sigaddi, sigsub, sigand, sigor, sigsll, sigsra, sigsw, siglw);
+	
+	// OR gates
+	
